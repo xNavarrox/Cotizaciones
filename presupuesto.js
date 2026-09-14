@@ -831,3 +831,40 @@ document.addEventListener('DOMContentLoaded', function () {
         agregarVidrio();
     }
 });
+
+/**
+ * Limpia todo el presupuesto: datos del cliente, todos los vidrios agregados,
+ * procesos, totales y mensajes. Pide confirmación antes de borrar.
+ */
+function limpiarPresupuesto() {
+    const confirmar = confirm('¿Seguro que quieres limpiar el presupuesto?\nSe perderán todos los datos ingresados.');
+    if (!confirmar) return;
+
+    // Limpiar datos del cliente
+    const nombreEl = document.getElementById('nombreCliente');
+    const numeroEl = document.getElementById('numeroCliente');
+    const tipoEl = document.getElementById('tipoDocumento');
+    if (nombreEl) nombreEl.value = '';
+    if (numeroEl) numeroEl.value = '';
+    if (tipoEl) tipoEl.value = 'Presupuesto';
+
+    // Eliminar todos los vidrios agregados (de golpe, sin ir uno por uno)
+    const contenedor = document.getElementById('contenedor-vidrios');
+    if (contenedor) {
+        contenedor.innerHTML = '';
+    }
+    contadorVidrios = 0;
+
+    // Dejar un vidrio vacío listo para empezar de nuevo
+    agregarVidrio();
+
+    // Resetear el total mostrado
+    calcularTotal();
+
+    // Limpiar cualquier mensaje de éxito/error que hubiera quedado
+    const msgEl = document.getElementById('msg-presupuesto');
+    if (msgEl) {
+        msgEl.textContent = '';
+        msgEl.className = '';
+    }
+}
